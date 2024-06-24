@@ -12,7 +12,7 @@ added and removed by editing the config.h file.
 This build reads scripts from $PATH to update information in individual
 statusbar blocks. i3 and dwm use the same statusbar scripts.
 
-## Signaling changes to blocks
+### Signaling changes to blocks
 
 Most statusbars constantly rerun every script every several seconds to update.
 This is an option here, but another choice is giving your module a signal
@@ -29,7 +29,7 @@ along side my volume shortcuts in dwm to only update it when relevant.
 
 Note that all modules must have different signal numbers.
 
-# Clickable modules
+#### Clickable modules
 
 Like i3blocks, this build allows you to build in additional actions into your
 scripts in response to click events.  See the above linked scripts for examples
