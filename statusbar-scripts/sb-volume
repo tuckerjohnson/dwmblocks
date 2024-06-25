@@ -1,13 +1,17 @@
 #!/bin/sh
 
-# Prints the current volume or 🔇 if muted.
+# Prints the current volume.
 
 case $BLOCK_BUTTON in
-	1) setsid -w -f "$TERMINAL" -e pulsemixer; pkill -RTMIN+10 "${STATUSBAR:-dwmblocks}" ;;
+    1) device=$(pactl get-default-sink)
+        otherDevices=$(pactl list short sinks | grep -v $device | awk '{print $2}' | cut -d'.' -f4)
+        pkill -RTMIN+10 "${STATUSBAR:-dwmblocks}" ;
+        notify-send " Devices" "$(echo $device | cut -d'.' -f4)*
+$otherDevices" ;;
 	2) wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle ;;
 	4) wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%+ ;;
 	5) wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%- ;;
-	3) notify-send "📢 Volume module" "\- Shows volume 🔊, 🔇 if muted.
+	3) notify-send " Volume module" "\- Shows volume ,  if muted.
 - Middle click to mute.
 - Scroll to change." ;;
 	6) setsid -f "$TERMINAL" -e "$EDITOR" "$0" ;;
@@ -15,8 +19,8 @@ esac
 
 vol="$(wpctl get-volume @DEFAULT_AUDIO_SINK@)"
 
-# If muted, print 🔇 and exit.
-[ "$vol" != "${vol%\[MUTED\]}" ] && echo "[🔇00%]" && exit
+# If muted:
+[ "$vol" != "${vol%\[MUTED\]}" ] && echo "[00%]" && exit
 
 vol="${vol#Volume: }"
 
@@ -30,10 +34,10 @@ split() {
 vol="$(printf "%.0f" "$(split "$vol" ".")")"
 
 case 1 in
-	$((vol >= 70)) ) icon="🔊" ;;
-	$((vol >= 30)) ) icon="🔉" ;;
-	$((vol >= 1)) ) icon="🔈" ;;
-	* ) echo "[🔇00%]" && exit ;;
+	$((vol >= 70)) ) icon="" ;;
+	$((vol >= 30)) ) icon="" ;;
+	$((vol >= 1)) ) icon="" ;;
+	* ) echo "[00%]" && exit ;;
 esac
 
 echo "[$icon$vol%]"
