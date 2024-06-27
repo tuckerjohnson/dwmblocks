@@ -4,9 +4,9 @@
 
 case $BLOCK_BUTTON in
     1) device=$(pactl get-default-sink)
-        otherDevices=$(pactl list short sinks | grep -v $device | awk '{print $2}' | cut -d'.' -f2)
+        otherDevices=$(pactl list short sinks | grep -v $device | awk '{print $2}' | cut -d'.' -f2 | cut -c -25)
         pkill -RTMIN+10 "${STATUSBAR:-dwmblocks}" ;
-        notify-send " Devices" "$(echo $device | cut -d'.' -f2)*
+        notify-send " Devices" "*$(echo $device | cut -d'.' -f2 | cut -c -25)
 $otherDevices" ;;
 	2) wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle ;;
 	4) wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%+ ;;
