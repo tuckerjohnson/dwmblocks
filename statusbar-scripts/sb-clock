@@ -1,9 +1,10 @@
 #!/bin/sh
 
 case $BLOCK_BUTTON in
-    1) notify-send " Month" "$(cal | sed "s/\<$(date +'%e')\>/<b><span color='red'>&<\/span><\/b>/")" &&
-        notify-send " Today" "$(remind -nb1 ~/Notes/calendar.rem | grep $(date +"%Y/%m/%d") | sed 's/^...........//' | sort)" ;;
-	3) notify-send " Time/date module" "\- Left click to show schedule for current day using \`remind\` and show the month via \`cal\`." ;;
+    1) notify-send " today" "$(remind -nb1 ~/Notes/calendar.rem | grep $(date +"%Y/%m/%d") | sed 's/^...........//' | sort)" &&
+        notify-send " to-do" "$(cat ~/Notes/bujo/todo.md | sed 's/-//')" ;;
+	3) notify-send " time/date" "\- displays time and date
+\- left click to show schedule for current day using remind and to-do list" ;;
 	6) setsid -f "$TERMINAL" -e "$EDITOR" "$0" ;;
 esac
 

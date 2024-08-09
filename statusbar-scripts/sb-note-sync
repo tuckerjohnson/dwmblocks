@@ -1,0 +1,18 @@
+#!/bin/sh
+
+case $BLOCK_BUTTON in
+	1) notify-send " git-tracker" "$(cd ~/Notes ; git status -sb)" ;;
+	3) notify-send " git-tracker" "\- shows status of a specified git repository
+- left-click to show status details" ;;
+	6) setsid -f "$TERMINAL" -e "$EDITOR" "$0" ;;
+esac
+
+(cd ~/Notes ; git fetch)
+
+branch=$(cd ~/Notes ; git status --porcelain=v2 -b)
+
+changes=""
+if [ "$(echo $branch | wc -l)" -gt 4 ] ; then changes="" ; fi
+branch=$(echo $branch | grep -o '+.*')
+
+echo "[$changes$branch]"
