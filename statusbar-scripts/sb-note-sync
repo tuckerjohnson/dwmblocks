@@ -12,7 +12,8 @@ esac
 branch=$(cd ~/Notes ; git status --porcelain=v2 -b)
 
 changes=""
-if [ "$(echo $branch | wc -l)" -gt 4 ] ; then changes="" ; fi
-branch=$(echo $branch | grep -o '+.*')
+if [ $(echo "$branch" | wc -l) -gt 4 ] ; then changes="" ; fi
+
+branch=$(echo "$branch" | grep -o '+.*$')
 
 echo "[$changes$branch]"

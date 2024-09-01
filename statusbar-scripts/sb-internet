@@ -6,7 +6,7 @@ case $BLOCK_BUTTON in
 : wifi connection with quality
 : no ethernet
 : ethernet working
-🔒: vpn is active
+: vpn is active
 " ;;
 	6) setsid -f "$TERMINAL" -e "$EDITOR" "$0" ;;
 esac
@@ -22,6 +22,6 @@ fi
 [ "$(cat /sys/class/net/e*/operstate 2>/dev/null)" = 'up' ] && ethericon="" || ethericon=""
 
 # TUN
-[ -n "$(cat /sys/class/net/tun*/operstate 2>/dev/null)" ] && tunicon=" 🔒"
+[ -n "$(cat /sys/class/net/tun*/operstate 2>/dev/null)" ] && tunicon=" "
 
 printf "[%s%s%s]\n" "$wifiicon" "$ethericon" "$tunicon"
